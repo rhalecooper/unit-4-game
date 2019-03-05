@@ -1,0 +1,71 @@
+/* .debug {
+    border: solid red 1px;
+} */
+
+body {
+    background-image: url("../images/background.jpg");
+    height: auto;
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#game-title {
+    color: white;
+    font-size: 30px;
+    text-align: right;
+    margin-right: 20%;
+}
+
+#your-character-choices {
+    color: white;
+    text-align: center; 
+}
+
+#luke-div, #maul-div, #rey-div, #yoda-div {
+    margin-right: 10px;
+}
+.role-image, .luke-img, .maul-img, .rey-img, .yoda-img, #your-character, #your-enemy {
+    width: 100px;
+}
+#your-character-title, #enimies-available-title, #fight-section-title, #defender-title {
+    color: white;
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+#your-character-div, #enemies-available-div, #defender-div {
+   font-size: 12px
+}
+
+#your-character {
+    color: white;
+    text-align: center;
+    background-color: green ;
+ }
+
+ #enemy-0, #enemy-1, #enemy-2, #your-enemy {
+    color: white;
+    text-align: center;
+    background-color: red ;
+ }
+
+#enemy-0, #enemy-1, #enemy-2 {
+    margin-right: 10px;
+}
+
+
+
+#message-area {
+    color: white;
+    font-size: 18px:
+}
+
+.make-float {
+    float: left
+}
+
+.end-float {
+    clear: both
+}
+
