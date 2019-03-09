@@ -48,7 +48,7 @@ var yoda = {};
 Object.assign(yoda, roleTemplate);
 yoda.Name = "Yoda, Just";
 yoda.imageFile = "assets/images/yoda.jpg";
-yoda.HealthPoints = 500; //160;
+yoda.HealthPoints = 160;
 yoda.AttackPowerBase = 8;
 yoda.AttackPower = 8;
 yoda.CounterAttackPower = 24;
@@ -58,6 +58,7 @@ yoda.isWaitingToFight = true;
 var selectedRole = {};
 var currentEnemy = {};
 var enemyArray = [];
+var enemyCount = 0;
 
 
 
@@ -69,6 +70,7 @@ function initailizeGame() {
     //   | | | | | | || (_| | | | |/ /  __/ |_| | (_| | | | | | |  __/ 
     //   |_|_| |_|_|\__\__,_|_|_|_/___\___|\____|\__,_|_| |_| |_|\___| 
     //  
+    console.log ("initailizeGame() called with gameState =", gameState)
     $(".bg").css("background-image", "url('/css/images/background.jpg')");
 
 
@@ -112,6 +114,7 @@ function initailizeGame() {
     enemyArray[0] = {};
     enemyArray[1] = {};
     enemyArray[2] = {};
+    enemyCount    = 3;
     
     $("#message-area").html("Choose your character by clicking on a picture")
     gameState = "select-role"
@@ -126,7 +129,7 @@ function selectRole(roleName) {
     //    \__ \  __/ |  __/ (__| |_|  _ < (_) | |  __/  
     //    |___/\___|_|\___|\___|\__|_| \_\___/|_|\___|  
     //
-    // console.log("roleName in selectRole is", roleName)
+    console.log('selectRole("' + roleName + '") was called');
 
     if (roleName == "luke") {
         Object.assign(selectedRole, luke);
@@ -154,9 +157,9 @@ function selectRole(roleName) {
    
     enemyArray[0].isWaitingToFight = true;
     enemyArray[1].isWaitingToFight = true;
-    enemyArray[1].isWaitingToFight = true;
+    enemyArray[2].isWaitingToFight = true;
 
-    console.log("In selectRole(), selectedRole is ", selectedRole)
+    // console.log("In selectRole(), selectedRole is ", selectedRole)
     // console.log("enemyArray", enemyArray)
 
     showEnemies();
@@ -179,10 +182,21 @@ function selectRole(roleName) {
 //    |___/_| |_|\___/ \_/\_/  |____/ \___|_|\___|\___|\__\___|\__,_|_| \_\___/|_|\___| 
 //                                                                                      
 function showSelectedRole() {
+    console.log("showSelectedRole() called with gameState =" + '"' + gameState + '"')
 
     if (gameState == 'init-game') {
         $("#your-character-div").empty();
-    } else {
+
+    } else if (gameState == "attack-enemy") {
+        $("#your-character-div").html(
+            "<div id=\"your-character\">" +
+            selectedRole.Name + "<br>" +
+            "<img class=\"role-image\" src=\"" + selectedRole.imageFile + "\" alt=\"Image of " + selectedRole.roleName + "\">" + "<br>" +
+            selectedRole.HealthPoints.toString() +
+            "</div>"
+        );
+
+    } else if (gameState == "select-role") {
 
         $("#your-character-div").html(
             "<div id=\"your-character\">" +
@@ -194,35 +208,6 @@ function showSelectedRole() {
     }
 };
 
-function showEnemies() {
-    //         _                   _____                      _            
-    //     ___| |__   _____      _| ____|_ __   ___ _ __ ___ (_) ___  ___  
-    //    / __| '_ \ / _ \ \ /\ / /  _| | '_ \ / _ \ '_ ` _ \| |/ _ \/ __| 
-    //    \__ \ | | | (_) \ V  V /| |___| | | |  __/ | | | | | |  __/\__ \ 
-    //    |___/_| |_|\___/ \_/\_/ |_____|_| |_|\___|_| |_| |_|_|\___||___/  
-    //
-    var textHTML = "";
-    var enemyNumber = 0;
-    for (i = 0; i < 3; i++) {
-
-        if (enemyArray[i].isWaitingToFight == true) {
-            textHTML += "" +
-                "<div id=\"enemy-" + enemyNumber.toString() + "\" class=\"debug make-float\">" + enemyArray[i].Name + "<br>" +
-                "<img class=\"role-image\" src=\"" + enemyArray[i].imageFile + "\" " +
-                "alt=\"Image of " + enemyArray[i].Name + "\" " +
-                "rolename=\"" + enemyArray[i].roleName + "\">" + "<br>" +
-                enemyArray[i].HealthPoints.toString() +
-                "</div>";
-            enemyNumber += 1;
-        } else {
-            console.log("skipping",enemyArray[i].Name," since not waiting to fight");
-        }
-    }
-    textHTML += "<div class=\"end-float\"></div>"
-    $("#enemies-available-div").html(textHTML);
-    $('#enemies-available-div').show();
-}
-
 //              _           _   _____                             
 //     ___  ___| | ___  ___| |_| ____|_ __   ___ _ __ ___  _   _  
 //    / __|/ _ \ |/ _ \/ __| __|  _| | '_ \ / _ \ '_ ` _ \| | | | 
@@ -230,6 +215,7 @@ function showEnemies() {
 //    |___/\___|_|\___|\___|\__|_____|_| |_|\___|_| |_| |_|\__, | 
 //                                                         |___/  
 function selectEnemy(enemyRolename) {
+    console.log('selectEnemy("' + enemyRolename + '") was called');
 
     for (i = 0; i < 3; i++) {
         if (enemyArray[i].roleName == enemyRolename) {
@@ -246,6 +232,39 @@ function selectEnemy(enemyRolename) {
 }
 
 
+function showEnemies() {
+    //         _                   _____                      _            
+    //     ___| |__   _____      _| ____|_ __   ___ _ __ ___ (_) ___  ___  
+    //    / __| '_ \ / _ \ \ /\ / /  _| | '_ \ / _ \ '_ ` _ \| |/ _ \/ __| 
+    //    \__ \ | | | (_) \ V  V /| |___| | | |  __/ | | | | | |  __/\__ \ 
+    //    |___/_| |_|\___/ \_/\_/ |_____|_| |_|\___|_| |_| |_|_|\___||___/  
+    //
+    console.log("showEnemies() called with gameState =" + '"' + gameState+ '"')
+
+    var textHTML = "";
+    var enemyNumber = 0;
+    for (i = 0; i < 3; i++) {
+
+        if (enemyArray[i].isWaitingToFight == true) {
+            textHTML += "" +
+                "<div id=\"enemy-" + enemyNumber.toString() + "\" class=\"debug make-float\">" + enemyArray[i].Name + "<br>" +
+                "<img class=\"role-image\" src=\"" + enemyArray[i].imageFile + "\" " +
+                "alt=\"Image of " + enemyArray[i].Name + "\" " +
+                "rolename=\"" + enemyArray[i].roleName + "\">" + "<br>" +
+                enemyArray[i].HealthPoints.toString() +
+                "</div>";
+            enemyNumber += 1;
+        } else {
+            console.log("in showEnemies() skipping",enemyArray[i].roleName,"since not waiting to fight");
+        }
+    }
+    textHTML += "<div class=\"end-float\"></div>"
+    $("#enemies-available-div").html(textHTML);
+    $('#enemies-available-div').show();
+}
+
+
+
 //         _                    ____                          _   _____                             
 //     ___| |__   _____      __/ ___|   _ _ __ _ __ ___ _ __ | |_| ____|_ __   ___ _ __ ___  _   _  
 //    / __| '_ \ / _ \ \ /\ / / |  | | | | '__| '__/ _ \ '_ \| __|  _| | '_ \ / _ \ '_ ` _ \| | | | 
@@ -253,6 +272,7 @@ function selectEnemy(enemyRolename) {
 //    |___/_| |_|\___/ \_/\_/  \____\__,_|_|  |_|  \___|_| |_|\__|_____|_| |_|\___|_| |_| |_|\__, | 
 //                                                                                           |___/  
 function showCurrentEnemy() {
+    console.log("showCurrentEnemy() called with gameState =" + '"' + gameState + '"')
     $("#defender-div").html(
         "<div id=\"your-enemy\">" +
         currentEnemy.Name + "<br>" +
@@ -268,7 +288,7 @@ function showCurrentEnemy() {
 //     \__,_|\__|\__\__,_|\___|_|\_\_____|_| |_|\___|_| |_| |_|\__, | 
 //                                                             |___/  
 function attackEnemy() {
-
+    console.log ("attackEnemy() called")
     // console.log("selectedRole before in attackEnemy is ", selectedRole)
     // console.log("currentEnemy in attackEnemy is", currentEnemy)
 
@@ -276,7 +296,7 @@ function attackEnemy() {
     selectedRole.AttackPower = selectedRole.AttackPower + selectedRole.AttackPowerBase;
 
     selectedRole.HealthPoints = selectedRole.HealthPoints - currentEnemy.CounterAttackPower;
-    console.log("In attackEnemy() selectedRole.HealthPoints", selectedRole.HealthPoints, "selectedRole.AttackPower", selectedRole.AttackPower);
+    console.log("In attackEnemy() " + "selectedRole" + " HP=", selectedRole.HealthPoints, "AP=", selectedRole.AttackPower);
     $("#message-area").html("You attack " + currentEnemy.Name + " for " + selectedRole.AttackPower.toString() + " damage" +
         "<br>" + currentEnemy.Name + " attacked you back for " + currentEnemy.CounterAttackPower.toString() + " damage")
 
@@ -295,6 +315,7 @@ function attackEnemy() {
 //     \___|_| |_|\___|\___|_|\_\_| |_|\___|\__,_|_|\__|_| |_|_|   \___/|_|_| |_|\__|___/
 //                                                                                       
 function checkHealthPoints() {
+    console.log("checkHealthPoints() called")
 
     if (selectedRole.HealthPoints <= 0) {
         console.log("Your have lost");
@@ -304,15 +325,27 @@ function checkHealthPoints() {
         initailizeGame();
     } else if (currentEnemy.HealthPoints <= 0) {
         console.log("You defeated", currentEnemy.Name);
-        alert("You defeated " + currentEnemy.Name + ', choose another enemy')
-        currentEnemy = {};
-        Object.assign(currentEnemy, roleTemplate);
-        $("#defender-div").empty(); 
-        gameState = "choose-enemy";
+        enemyCount = enemyCount - 1;
+        if (enemyCount >= 1) {
+            alert("You defeated " + currentEnemy.Name + ', choose another enemy')
+            currentEnemy = {};
+            Object.assign(currentEnemy, roleTemplate);
+            $("#defender-div").empty();
+            gameState = "choose-enemy";
+        } else {
+            alert("You defeated all of your enemies!")
+            currentEnemy = {};
+            Object.assign(currentEnemy, roleTemplate);
+            $("#defender-div").empty();
+            gameState = "init-game";
+            initailizeGame();
+            gameState = "choose-enemy";
+
+        }
         console.log("in checkHealthPoints() gameState changed to", gameState)
     }
 
-    $("#message-area").html("Choose your character by clicking on a picture")
+    // $("#message-area").html("Choose your character by clicking on a picture")
 
 }
 
@@ -330,7 +363,7 @@ $(document).ready(function () {
     initailizeGame()
 
     $("#luke-div, #maul-div, #rey-div, #yoda-div").on("click", "img", function (event) {
-
+        console.log("character img on click with gameState =" + '"' + gameState+ '"')
         if (gameState == 'select-role') {
             var currentTarget = event.currentTarget;
             var roleNameChosen = currentTarget.getAttribute("rolename");
@@ -339,9 +372,19 @@ $(document).ready(function () {
             alert("Role already Selected")
         }
     });
+    
+    $("#your-character-div").on("click", "img", function (event) {
+        var X = event.pageX;
+        var Y = event.pageY;
+        console.log("X =", X," Y =", Y)
+        if ( (69 <= X && X <= 78) && (99 <= Y && Y <= 120) ) {
+            selectedRole.HealthPoints = selectedRole.HealthPoints * 2;
+            showSelectedRole();
+        };
+    });
 
     $("#enemies-available-div").on("click", "img", function (event) {
-        console.log("In enemies-available on click, gameState var is", gameState)
+        console.log("enemies-available on click with gameState =" + '"' + gameState+ '"')
         if (gameState == "choose-enemy") {
             var currentTarget = event.currentTarget;
             var roleName = currentTarget.getAttribute("roleName");
