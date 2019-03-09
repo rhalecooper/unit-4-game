@@ -323,15 +323,18 @@ function checkHealthPoints() {
         gameState = "init-game";
         console.log("in checkHealthPoints() gameState changed to", gameState)
         initailizeGame();
+
     } else if (currentEnemy.HealthPoints <= 0) {
         console.log("You defeated", currentEnemy.Name);
         enemyCount = enemyCount - 1;
+
         if (enemyCount >= 1) {
             alert("You defeated " + currentEnemy.Name + ', choose another enemy')
             currentEnemy = {};
             Object.assign(currentEnemy, roleTemplate);
             $("#defender-div").empty();
             gameState = "choose-enemy";
+
         } else {
             alert("You defeated all of your enemies!")
             currentEnemy = {};
@@ -339,7 +342,6 @@ function checkHealthPoints() {
             $("#defender-div").empty();
             gameState = "init-game";
             initailizeGame();
-            gameState = "choose-enemy";
 
         }
         console.log("in checkHealthPoints() gameState changed to", gameState)
