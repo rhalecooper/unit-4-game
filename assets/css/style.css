@@ -26,7 +26,7 @@ body {
     margin-right: 10px;
 }
 .role-image, .luke-img, .maul-img, .rey-img, .yoda-img, #your-character, #your-enemy {
-    width: 65px;
+    width: 75px;
 }
 #your-character-title, #enimies-available-title, #fight-section-title, #defender-title {
     color: white;
@@ -58,7 +58,8 @@ body {
 
 #message-area {
     color: white;
-    font-size: 18px:
+    font-size: 18px;
+    background-color: green ;
 }
 
 .make-float {
