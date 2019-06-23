@@ -48,7 +48,7 @@ var yoda = {};
 Object.assign(yoda, roleTemplate);
 yoda.Name = "Yoda, Just";
 yoda.imageFile = "assets/images/yoda.jpg";
-yoda.HealthPoints = 210;
+yoda.HealthPoints = 220;
 yoda.AttackPowerBase = 9;
 yoda.AttackPower = 9;
 yoda.CounterAttackPower = 24;
