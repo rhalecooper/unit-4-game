@@ -29,7 +29,7 @@ maul.imageFile = "assets/images/maul.jpg";
 maul.HealthPoints = 140;
 maul.AttackPowerBase = 7;
 maul.AttackPower = 7;
-maul.CounterAttackPower = 26;
+maul.CounterAttackPower = 22;
 maul.roleName = "maul"
 maul.isWaitingToFight = true;
 
@@ -48,7 +48,7 @@ var yoda = {};
 Object.assign(yoda, roleTemplate);
 yoda.Name = "Yoda, Just";
 yoda.imageFile = "assets/images/yoda.jpg";
-yoda.HealthPoints = 180;
+yoda.HealthPoints = 210;
 yoda.AttackPowerBase = 9;
 yoda.AttackPower = 9;
 yoda.CounterAttackPower = 24;
